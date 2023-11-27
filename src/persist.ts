@@ -6,8 +6,8 @@ import {
 } from "./persistStore";
 
 export type Storage = {
-  getItem: (key: string) => Promise<string | null | undefined>;
-  setItem: (key: string, data: string) => Promise<void>;
+  getItem: (key: string) => string | null | undefined;
+  setItem: (key: string, data: string) => void;
 };
 
 export type PersistConfig = {
@@ -30,7 +30,7 @@ export const persist = (persistEntries: PersistProps) => {
   return persistStore;
 };
 
-const createPersistNode = async (
+const createPersistNode = (
   persistStore: IPersistStoreModel,
   persistEntry: PersistEntry
 ) => {
@@ -62,7 +62,7 @@ const createPersistNode = async (
 
   // load from storage
   try {
-    const restoredState = await config.storage.getItem(config.key);
+    const restoredState = config.storage.getItem(config.key);
     if (restoredState) {
       applySnapshot(node, JSON.parse(restoredState));
     }

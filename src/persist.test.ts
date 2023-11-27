@@ -50,12 +50,9 @@ describe("persist", () => {
 
     vi.runAllTimers();
 
-    const persistedData =
-      (await testStorage.getItem("user").then((data) => {
-        if (data) {
-          return JSON.parse(data);
-        }
-      })) || {};
+    const persistedData = testStorage.getItem("user")
+      ? JSON.parse(testStorage.getItem("user") as string)
+      : {};
 
     expect(persistedData.firstName).toEqual("first");
 
